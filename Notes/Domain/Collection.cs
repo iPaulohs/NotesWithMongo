@@ -13,7 +13,7 @@ public class Collection
 
     public string? Description { get; set; }
 
-    public object? NotesId { get; internal set; }
+    public BsonArray? NotesId { get; internal set; }
 
     public string? AuthorId { get; set; }
 }

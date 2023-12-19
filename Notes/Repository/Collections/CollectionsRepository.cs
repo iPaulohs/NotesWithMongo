@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Notes.Database;
@@ -38,9 +37,10 @@ namespace Notes.Repository.Collections
             await _collections.InsertOneAsync(collection);
         }
 
-        public async Task<List<Collection>> GetAllCollectionsAsync(string userId)
+        public async Task<List<Collection>> GetAllCollectionsAsync(string authorId)
         {
-            return await _collections.Find(collection => collection.AuthorId == userId).ToListAsync();
+            var filter = Builders<Collection>.Filter.Eq(x => x.AuthorId, authorId);
+            return await _collections.Find(filter).ToListAsync();        
         }
     }
 }

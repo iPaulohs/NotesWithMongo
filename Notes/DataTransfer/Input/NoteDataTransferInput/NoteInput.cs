@@ -13,5 +13,8 @@ namespace Notes.DataTransfer.Input.NoteDataTransferInput
 
         [BsonRepresentation(BsonType.String)]
         public string? CollectionId { get; set; }
+
+        [BsonRepresentation(BsonType.String)]
+        public string? AuthorId { get; set; }
     }
 }

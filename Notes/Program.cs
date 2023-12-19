@@ -16,7 +16,7 @@ var config = builder.Configuration;
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(config.GetConnectionString("AuthDb")));
+builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(config.GetConnectionString("AuthDb2")));
 var mappingConfig = new MapperConfiguration(options =>
 {
     options.AddProfile(new MappingProfile());

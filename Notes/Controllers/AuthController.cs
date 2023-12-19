@@ -28,7 +28,7 @@ public partial class AuthController : ControllerBase
         {
             Id = $"[{userInput.Name.GetHashCode().ToString().Replace("-", "")}" +
             $"]@[" +
-            $"{userInput.Name.GetHashCode().ToString().Replace("-", "")}]",
+            $"{userInput.Email.GetHashCode().ToString().Replace("-", "")}]",
             Name = userInput.Name,
             Email = userInput.Email,
             UserName = userInput.UserName,

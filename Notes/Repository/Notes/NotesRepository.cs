@@ -23,21 +23,25 @@ public class NotesRepository : INotesRepository
         _context = context;
     }
 
-    public async Task CreateNote(NoteInput _noteInput, string authorId, string collectionId)
+    public async Task CreateNote(NoteInput _noteInput)
     {
-        var user = _context.Users.FirstOrDefault(author => author.Id == authorId);
+        var user = _context.Users.FirstOrDefault(author => author.Id == _noteInput.AuthorId);
 
         Note note = new()
         {
             Id = ObjectId.GenerateNewId().ToString(),
             Title = _noteInput.Title,
             Description = _noteInput.Description,
-            AuthorId = authorId,
-            CollectionId = _noteInput.CollectionId,
+            AuthorId = _noteInput.AuthorId,
+            CollectionId = _noteInput.CollectionId
         };
 
         await _notes.InsertOneAsync(note);
-        //TODO: Adicionar o ID da nota criada ao respectivo array BSON da coleção
+        var builder = Builders<Collection>.Filter;
+        var update = Builders<Collection>.Update.AddToSet(x => x.NotesId, note.Id);
+
+        var collection = builder.Eq(x => x.AuthorId, _noteInput.AuthorId) & builder.Eq(x => x.Id, _noteInput.CollectionId);
+        var result = await _collections.UpdateOneAsync(collection, update);
     }
 
     public async Task<List<Note>> GetAllNotesAsync(string authorId)
