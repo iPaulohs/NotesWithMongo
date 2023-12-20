@@ -48,4 +48,10 @@ public class NotesRepository : INotesRepository
     {
         return await _notes.Find(note => note.AuthorId == authorId).ToListAsync();    
     }
+
+    public void DeleteNote(string noteId)
+    {
+        var filter = Builders<Note>.Filter.Eq(x => x.Id, noteId);
+        _notes.DeleteOneAsync(filter);
+    }
 }

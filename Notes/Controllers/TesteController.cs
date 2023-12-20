@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Notes.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class TesteController : ControllerBase
     {

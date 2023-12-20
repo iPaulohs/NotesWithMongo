@@ -7,4 +7,5 @@ public interface INotesRepository
 {
     public Task CreateNote(NoteInput _noteInput);
     public Task<List<Note>> GetAllNotesAsync(string userId);
+    public void DeleteNote(string noteId);
 }

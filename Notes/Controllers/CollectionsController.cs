@@ -7,7 +7,7 @@ using Notes.Repository.Collections;
 namespace Notes.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CollectionsController : ControllerBase
     {
@@ -22,11 +22,17 @@ namespace Notes.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddCollection(CollectionInput _collectionInput, string authorId)
+        public async Task<IActionResult> AddCollection(CollectionInput _collectionInput)
         {
-            var result = _collectionsRepository.CreateCollection(_collectionInput, authorId);
-            return CreatedAtAction(nameof(Get), new { _collectionInput.Title }, _collectionInput);
+            await _collectionsRepository.CreateCollection(_collectionInput);
+            return Ok();
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCollection(string collectionId) 
+        {
+            _collectionsRepository.DeleteCollection(collectionId);
+            return Ok("Collection apagada.");
+        }
     }
 }

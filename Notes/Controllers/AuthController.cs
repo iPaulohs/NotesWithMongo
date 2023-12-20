@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Notes.DataTransfer.Input.UserDataTransfer;
+using Notes.DataTransfer.Input.UserDataTransferInput;
 using Notes.Identity;
 
 namespace Notes.Controllers;

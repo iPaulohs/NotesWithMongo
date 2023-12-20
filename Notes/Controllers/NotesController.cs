@@ -7,7 +7,7 @@ using Notes.Repository.Notes;
 namespace Notes.Controllers
 {
     [Authorize]
-    [Route("/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class NotesController : ControllerBase
     {
@@ -29,6 +29,10 @@ namespace Notes.Controllers
             return CreatedAtAction(nameof(Get), new { _noteInput.Title }, _noteInput);
         }
 
-
+        [HttpDelete]
+        public void DeleteNote(string noteId)
+        {
+            _notesRepository.DeleteNote(noteId);
+        }
     }
 }

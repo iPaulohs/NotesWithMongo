@@ -1,4 +1,4 @@
-﻿namespace Notes.DataTransfer.Input.UserDataTransfer;
+﻿namespace Notes.DataTransfer.Input.UserDataTransferInput;
 
 public class UserInputRegister
 {
