@@ -54,4 +54,10 @@ public class NotesRepository : INotesRepository
         var filter = Builders<Note>.Filter.Eq(x => x.Id, noteId);
         _notes.DeleteOneAsync(filter);
     }
+
+    public async Task<List<Note>> GetNoteByTitle(string searchTerm)
+    {
+        var regexFilter = Builders<Note>.Filter.Regex("Title", new BsonRegularExpression($".*{searchTerm}.*", "i"));
+        return await _notes.Find(regexFilter).ToListAsync();
+    }
 }
