@@ -41,18 +41,23 @@ public class NotesRepository : INotesRepository
         var update = Builders<Collection>.Update.AddToSet(x => x.NotesId, note.Id);
 
         var collection = builder.Eq(x => x.AuthorId, _noteInput.AuthorId) & builder.Eq(x => x.Id, _noteInput.CollectionId);
-        var result = await _collections.UpdateOneAsync(collection, update);
+        await _collections.UpdateOneAsync(collection, update);
     }
+
+    public async Task DeleteNote(string noteId)
+    {
+        var note = await _notes.FindOneAndDeleteAsync(x => x.Id == noteId);
+        var builder = Builders<Collection>.Filter;
+        var update = Builders<Collection>.Update.Pull(x => x.NotesId, noteId);
+
+        var collectionFilter = builder.Eq(x => x.AuthorId, note.AuthorId) & builder.Eq(x => x.Id, note.CollectionId);
+        await _collections.UpdateOneAsync(collectionFilter, update);
+    }
+
 
     public async Task<List<Note>> GetAllNotesAsync(string authorId)
     {
-        return await _notes.Find(note => note.AuthorId == authorId).ToListAsync();    
-    }
-
-    public void DeleteNote(string noteId)
-    {
-        var filter = Builders<Note>.Filter.Eq(x => x.Id, noteId);
-        _notes.DeleteOneAsync(filter);
+        return await _notes.Find(note => note.AuthorId == authorId).ToListAsync();
     }
 
     public async Task<List<Note>> GetNoteByTitle(string searchTerm)

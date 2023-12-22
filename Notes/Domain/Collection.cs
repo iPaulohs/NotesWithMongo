@@ -1,5 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Notes.Domain;
 
@@ -13,7 +13,7 @@ public class Collection
 
     public string? Description { get; set; }
 
-    public BsonArray? NotesId { get; internal set; }
+    public List<string>? NotesId { get; set; }
 
     public string? AuthorId { get; set; }
 }

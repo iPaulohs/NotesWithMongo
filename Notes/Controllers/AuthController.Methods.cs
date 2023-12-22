@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using Notes.DataTransfer.Output;
 using Notes.Identity;
 using System.IdentityModel.Tokens.Jwt;

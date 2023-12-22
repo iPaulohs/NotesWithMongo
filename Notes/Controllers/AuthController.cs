@@ -18,7 +18,6 @@ public partial class AuthController : ControllerBase
         _userManager = userManager;
         _signInManager = signInManager;
         _configuration = configuration;
-
     }
 
     [HttpPost("register")]
@@ -70,6 +69,6 @@ public partial class AuthController : ControllerBase
     {
         await _signInManager.SignOutAsync();
 
-        return Ok("Logout bem sucedido." );
+        return Ok("Logout bem sucedido.");
     }
 }

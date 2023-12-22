@@ -34,7 +34,7 @@ public class CollectionsRepository : ICollectionsRepository
                 Id = ObjectId.GenerateNewId().ToString(),
                 Title = _collectionInput.Title,
                 Description = _collectionInput.Description,
-                NotesId = new BsonArray(),
+                NotesId = new List<string>(),
                 AuthorId = user.Id
             };
 
@@ -46,7 +46,7 @@ public class CollectionsRepository : ICollectionsRepository
     public async Task<List<Collection>> GetAllCollectionsAsync(string authorId)
     {
         var filter = Builders<Collection>.Filter.Eq(x => x.AuthorId, authorId);
-        return await _collections.Find(filter).ToListAsync();        
+        return await _collections.Find(filter).ToListAsync();
     }
 
     public void DeleteCollection(string collectionId)

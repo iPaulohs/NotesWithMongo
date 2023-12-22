@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Notes.Database;
-using Notes.DataTransfer;
 using Notes.Identity;
 using Notes.Repository.Collections;
 using Notes.Repository.Notes;
@@ -12,6 +11,9 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
+
+builder.Services.AddScoped<INotesRepository, NotesRepository>();
+builder.Services.AddScoped<ICollectionsRepository, CollectionsRepository>();
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -31,8 +33,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 builder.Services.Configure<MongoContext>(config.GetSection("MongoDbDatabase"));
-builder.Services.AddScoped<INotesRepository, NotesRepository>();
-builder.Services.AddScoped<ICollectionsRepository, CollectionsRepository>();
 
 
 var app = builder.Build();
