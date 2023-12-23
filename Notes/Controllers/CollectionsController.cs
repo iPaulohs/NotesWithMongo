@@ -36,15 +36,15 @@ public class CollectionsController : ControllerBase
     }
 
     [HttpGet("{authorId}")]
-    public Task<List<Collection>> Get(string authorId)
+    public async Task<List<Collection>> Get(string authorId)
     {
-        return _collectionsRepository.GetAllCollectionsAsync(authorId);
+        return await _collectionsRepository.GetAllCollectionsAsync(authorId);
     }
 
     [HttpPut("edit/{collectionId}")]
     public async Task<IActionResult> EditCollection(string collectionId, [FromBody] CollectionInputUpdate updatedCollection)
     {
-        _collectionsRepository.EditCollection(collectionId, updatedCollection);
+         _collectionsRepository.EditCollection(collectionId, updatedCollection);
         return Ok("Collection editada com sucesso.");
     }
 }

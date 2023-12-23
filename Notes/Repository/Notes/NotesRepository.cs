@@ -54,10 +54,13 @@ public class NotesRepository : INotesRepository
         await _collections.UpdateOneAsync(collectionFilter, update);
     }
 
-
-    public async Task<List<Note>> GetAllNotesAsync(string authorId)
+    public async Task<List<Note>> GetAllNotesAsync(string authorId, string collectionId)
     {
-        return await _notes.Find(note => note.AuthorId == authorId).ToListAsync();
+        var filterCollection = Builders<Note>.Filter.Eq(x => x.CollectionId, collectionId);
+        var filterAuthor = Builders<Note>.Filter.Eq(x => x.AuthorId, authorId);
+
+        var filter = Builders<Note>.Filter.And(filterAuthor, filterCollection);
+        return await _notes.Find(filter).ToListAsync();
     }
 
     public async Task<List<Note>> GetNoteByTitle(string searchTerm)

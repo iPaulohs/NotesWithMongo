@@ -35,9 +35,9 @@ public class NotesController : ControllerBase
     }
 
     [HttpGet("{authorId}")]
-    public Task<List<Note>> Get(string authorId)
+    public Task<List<Note>> Get(string authorId, string collectionId)
     {
-        return _notesRepository.GetAllNotesAsync(authorId);
+        return _notesRepository.GetAllNotesAsync(authorId, collectionId);
     }
 
     [HttpPut("edit/{noteId}")]
