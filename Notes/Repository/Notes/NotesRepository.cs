@@ -23,7 +23,7 @@ public class NotesRepository : INotesRepository
         _context = context;
     }
 
-    public async Task CreateNote(NoteInput _noteInput)
+    public async Task CreateNote(NoteInputInclude _noteInput)
     {
         var user = _context.Users.FirstOrDefault(author => author.Id == _noteInput.AuthorId);
 
@@ -64,5 +64,16 @@ public class NotesRepository : INotesRepository
     {
         var regexFilter = Builders<Note>.Filter.Regex("Title", new BsonRegularExpression($".*{searchTerm}.*", "i"));
         return await _notes.Find(regexFilter).ToListAsync();
+    }
+
+    public async void EditNote(string noteId, NoteInputUpdate updatedNote)
+    {
+        var filter = Builders<Note>.Filter.Eq(x => x.Id, noteId);
+
+        var update = Builders<Note>.Update
+            .Set(x => x.Title, updatedNote.Title)
+            .Set(x => x.Description, updatedNote.Description);
+
+        await _notes.UpdateOneAsync(filter, update);
     }
 }

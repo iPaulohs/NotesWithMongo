@@ -8,7 +8,7 @@ namespace Notes.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("/Collections")]
+[Route("[Controller]")]
 public class CollectionsController : ControllerBase
 {
     private readonly ICollectionsRepository _collectionsRepository;
@@ -16,7 +16,7 @@ public class CollectionsController : ControllerBase
     public CollectionsController(ICollectionsRepository collectionsRepository) => _collectionsRepository = collectionsRepository;
 
     [HttpPost("addcollection")]
-    public async Task<IActionResult> AddCollection([FromBody] CollectionInput _collectionInput)
+    public async Task<IActionResult> AddCollection([FromBody] CollectionInputInclude _collectionInput)
     {
         await _collectionsRepository.CreateCollection(_collectionInput);
         return Ok(new { Message = "Collection criada com sucesso." });
@@ -39,5 +39,12 @@ public class CollectionsController : ControllerBase
     public Task<List<Collection>> Get(string authorId)
     {
         return _collectionsRepository.GetAllCollectionsAsync(authorId);
+    }
+
+    [HttpPut("edit/{collectionId}")]
+    public async Task<IActionResult> EditCollection(string collectionId, [FromBody] CollectionInputUpdate updatedCollection)
+    {
+        _collectionsRepository.EditCollection(collectionId, updatedCollection);
+        return Ok("Collection editada com sucesso.");
     }
 }

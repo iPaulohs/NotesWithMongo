@@ -8,7 +8,7 @@ namespace Notes.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("/Notes")]
+[Route("[Controller]")]
 public class NotesController : ControllerBase
 {
     private readonly INotesRepository _notesRepository;
@@ -16,7 +16,7 @@ public class NotesController : ControllerBase
     public NotesController(INotesRepository notesRepository) => _notesRepository = notesRepository;
 
     [HttpPost("addnote")]
-    public async Task<IActionResult> AddNote([FromBody] NoteInput _noteInput)
+    public async Task<IActionResult> AddNote([FromBody] NoteInputInclude _noteInput)
     {
         await _notesRepository.CreateNote(_noteInput);
         return Ok(new { Message = "Nota criada com sucesso." });
@@ -38,5 +38,12 @@ public class NotesController : ControllerBase
     public Task<List<Note>> Get(string authorId)
     {
         return _notesRepository.GetAllNotesAsync(authorId);
+    }
+
+    [HttpPut("edit/{noteId}")]
+    public IActionResult EditNote(string noteId, [FromBody] NoteInputUpdate noteUpdate) 
+    {
+        _notesRepository.EditNote(noteId, noteUpdate);
+        return Ok("Nota editada com sucesso.");
     }
 }

@@ -23,7 +23,7 @@ public class CollectionsRepository : ICollectionsRepository
         _context = context;
     }
 
-    public async Task CreateCollection(CollectionInput _collectionInput)
+    public async Task CreateCollection(CollectionInputInclude _collectionInput)
     {
         var user = _context.Users.FirstOrDefault(user => user.Id == _collectionInput.AuthorId);
 
@@ -62,5 +62,16 @@ public class CollectionsRepository : ICollectionsRepository
     {
         var regexFilter = Builders<Collection>.Filter.Regex("Title", new BsonRegularExpression($".*{searchTerm}.*", "i"));
         return await _collections.Find(regexFilter).ToListAsync();
+    }
+
+    public void EditCollection(string collectionId, CollectionInputUpdate updatedCollection)
+    {
+        var filter = Builders<Collection>.Filter.Eq(x => x.Id, collectionId);
+
+        var update = Builders<Collection>.Update
+            .Set(x => x.Title, updatedCollection.Title)
+            .Set(x => x.Description, updatedCollection.Description);
+
+        _collections.UpdateOneAsync(filter, update);
     }
 }
